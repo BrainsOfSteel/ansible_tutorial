@@ -86,4 +86,6 @@ playbook: site.yml
   play #4 (file_servers): file_servers  TAGS: []
       TASK TAGS: [samba]
 
-      
+9. ansible-playbook --tags db --ask-become-pass site.yml
+
+//launching playbook from a specific tags      
