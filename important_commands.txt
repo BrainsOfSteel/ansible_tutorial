@@ -1,0 +1,89 @@
+----Ansible commands---
+ping command
+
+1.ansible all --key-file ~/.ssh/id_rsa -i inventory -m ping
+//inventory is the list of hosts machines where it is pinging to
+
+2. ansible all -m ping
+//Shortened command with defaults specified in ansible.cfg file (example)
+[defaults]
+inventory = inventory
+private_key_file = ~/.ssh/id_rsa
+
+
+3. Listing all the hosts
+ansible@ubuntu-c:~/youtubeAnsible$ ansible all --list-hosts
+hosts (6):
+ubuntu1
+ubuntu2
+ubuntu3
+centos1
+centos2
+centos3
+
+4. ansible all -m gather_facts //all the details
+
+//Only for a particular hosts
+ansible all -m gather_facts --limit centos1
+
+5. ansible all -m apt -a name=vim-nox --become --ask-become-pass
+//adding a package using ansible
+
+
+6. Playbook
+ansible-playbook --ask-become-pass install_apache.yml
+
+install_apache.yml
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install apache2 package
+    apt:
+      name: apache2
+
+7. removing the apache package
+ansible-playbook --ask-become-pass remove_apache.yml
+
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: update repository index
+    apt:
+      update_cache: yes
+
+  - name: install apache2 package
+    apt:
+      name: apache2
+      state: absent
+  
+  - name: add php support for apache
+    apt:
+      name: libapache2-mod-php
+      state: absent
+
+
+8. ansible-playbook --list-tags site.yml
+//Getting tags from the playbook command
+
+
+playbook: site.yml
+
+  play #1 (all): all    TAGS: []
+      TASK TAGS: [always]
+
+  play #2 (web_servers): web_servers    TAGS: []
+      TASK TAGS: [apache, apache2, centos, httpd, ubuntu]
+
+  play #3 (db_servers): db_servers      TAGS: []
+      TASK TAGS: [centos, db, mariadb, ubuntu]
+
+  play #4 (file_servers): file_servers  TAGS: []
+      TASK TAGS: [samba]
+
+      

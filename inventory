@@ -1,6 +1,7 @@
 [web_servers]
 ubuntu1
 ubuntu2
+centos2
 
 [db_servers]
 ubuntu3
