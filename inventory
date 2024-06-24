@@ -8,3 +8,7 @@ ubuntu3
 
 [file_servers]
 centos2
+
+[workstations]
+ubuntu1
+ubuntu2
